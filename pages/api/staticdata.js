@@ -2,6 +2,7 @@ import path from "path";
 import { readFile } from "fs/promises";
 
 let data;
+const limit = 10;
 
 export default async function handler(req, res) {
   if (!data) {
@@ -15,23 +16,19 @@ export default async function handler(req, res) {
     data = jsonData.details;
     // console.log("data loaded");
   }
-  const { page, limit } = req.query;
-  if (!page && !limit) {
+  const { page } = req.query;
+  if (!page) {
     return res.status(200).json(data);
   }
   const pageInt = parseInt(page);
-  const limitInt = parseInt(limit);
   if (!page || isNaN(pageInt)) {
     res.status(400).json({ message: "invalid page number" });
   }
-  if (!limit || isNaN(limitInt)) {
-    res.status(400).json({ message: "invalid limit per page" });
-  }
 
-  //get data on this URL -- http://localhost:3000/api/staticdata?page=1&limit=1
+  //get data on this URL -- http://localhost:3000/api/staticdata?page=1
   //pagination
-  const startIndex = (pageInt - 1) * limitInt;
-  const stopIndex = startIndex + limitInt;
+  const startIndex = (pageInt - 1) * limit;
+  const stopIndex = startIndex + limit;
   const totalPages = Math.ceil(data.length / limit);
   res.status(200).json({ data: data.slice(startIndex, stopIndex), totalPages });
 }

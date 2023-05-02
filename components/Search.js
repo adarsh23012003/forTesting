@@ -14,7 +14,7 @@ const SearchMenu = () => {
   const router = useRouter();
   const [dropdownArray, setDropdownArray] = useState([]);
   const [dropDownValue, setDropDownValue] = useState();
-  console.log(dropDownValue);
+  // console.log(dropdownArray);
 
   useEffect(() => {
     function getAllData() {
@@ -32,8 +32,10 @@ const SearchMenu = () => {
 
   useEffect(() => {
     if (dropDownValue) {
-      router.push(`http://localhost:3000?cities=${dropDownValue}`);
-      router.reload();
+      // router.push(`http://localhost:3000?cities=${dropDownValue}`);
+      router.push(
+        `http://localhost:3000/?cities=${input}&city=${dropDownValue}&page=1`
+      );
     }
   }, [dropDownValue]);
 

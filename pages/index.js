@@ -8,72 +8,68 @@ import { BiChevronLeft, BiChevronRight } from "react-icons/bi";
 const index = () => {
   const [data, setData] = useState();
   const router = useRouter();
-  const { cities, page, limit } = router.query;
+  const { cities, city, page } = router.query;
   const [searchData, setSearchData] = useState([]);
 
   useEffect(() => {
     // In pagination data fetching
     function ListingCardDetail() {
-      fetch(
-        `http://localhost:3000/api/staticdata?page=${page ? page : 1}&limit=${
-          limit ? limit : 5
-        }`
-      )
+      fetch(`http://localhost:3000/api/staticdata?page=${page ? page : 1}`)
         .then((res) => {
           return res.json();
         })
         .then((data) => setData(data?.data));
     }
     ListingCardDetail();
-  }, [page, limit]);
-
-  // ----------------------------------------
-  // const goToNextPage = async () => {
-  //   const res = await fetch(
-  //     `http://localhost:3000/api/cities?states=Texas&page=1&limit=5`
-  //   );
-  //   const data = await res.json();
-  //   console.log(data);
-  // };
-  // ----------------------------------------
+  }, [page]);
 
   useEffect(() => {
     // In search data fetching
     const search = function () {
       if (cities) {
         fetch(
-          `http://localhost:3000/api/cities?state=${cities}&page=${
-            page ? page : 1
-          }&limit=${limit ? limit : 5}`
+          `http://localhost:3000/api/cities?states=${cities}&page=1
+          `
         )
           .then((res) => {
             return res.json();
           })
-          .then((data) => setSearchData(data?.data), console.log(searchData));
+          .then((data) => setSearchData(data?.data));
+      }
+      if (cities && city) {
+        fetch(
+          `http://localhost:3000/api/cities?states=${cities}&city=${city}&page=${
+            page ? page : 1
+          }`
+        )
+          .then((res) => {
+            return res.json();
+          })
+          .then((data) => {
+            setSearchData(data?.data);
+          });
       }
     };
     search();
-  }, [cities]);
+  }, [cities, city]);
 
   function nextPage() {
     fetch(
       `http://localhost:3000/api/cities?state=${cities}&page=${
         page ? page * 1 + 1 : 2
-      }&limit=${limit ? limit * 1 : 5}`
+      }`
     )
       .then((res) => {
         return res.json();
       })
       .then((data) => {
-        setSearchData([]), setSearchData(data?.data);
+        setSearchData(data?.data);
       });
   }
 
   function prevPage() {
     fetch(
-      `http://localhost:3000/api/cities?state=${cities}&page=${
-        page * 1 - 1
-      }&limit=${limit ? limit * 1 : 5}`
+      `http://localhost:3000/api/cities?state=${cities}&page=${page * 1 - 1}`
     )
       .then((res) => {
         return res.json();
@@ -89,9 +85,8 @@ const index = () => {
         <SearchMenu />
       </div>
       <div>
-        {searchData.length ? (
+        {searchData?.length > 0 ? (
           <>
-            {console.log(searchData.length)}
             <div className='px-5 md:px-10 lg:px-20 space-y-7 mb-11'>
               {searchData?.map((element) => {
                 return (
@@ -101,7 +96,7 @@ const index = () => {
                 );
               })}
             </div>
-            {/* pagination */}
+            pagination
             <div className='flex justify-center pt-8'>
               <div className='flex gap-5'>
                 <button
@@ -131,9 +126,7 @@ const index = () => {
                 <button
                   onClick={() => {
                     fetch(
-                      `http://localhost:3000/api/cities?state=${cities}&page=1&limit=${
-                        limit ? limit * 1 : 5
-                      }`
+                      `http://localhost:3000/api/cities?state=${cities}&page=1`
                     )
                       .then((res) => {
                         return res.json();
@@ -149,9 +142,7 @@ const index = () => {
                 <button
                   onClick={() => {
                     fetch(
-                      `http://localhost:3000/api/cities?state=${cities}&page=2&limit=${
-                        limit ? limit * 1 : 5
-                      }`
+                      `http://localhost:3000/api/cities?state=${cities}&page=2`
                     )
                       .then((res) => {
                         return res.json();
@@ -167,9 +158,7 @@ const index = () => {
                 <button
                   onClick={() => {
                     fetch(
-                      `http://localhost:3000/api/cities?state=${cities}&page=3&limit=${
-                        limit ? limit * 1 : 5
-                      }`
+                      `http://localhost:3000/api/cities?state=${cities}&page=3`
                     )
                       .then((res) => {
                         return res.json();
