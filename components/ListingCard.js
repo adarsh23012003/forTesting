@@ -9,8 +9,10 @@ import { RiShareBoxLine } from "react-icons/ri";
 import { AiOutlineMail } from "react-icons/ai";
 import ReactStars from "react-stars";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 const ListingCard = ({ detail }) => {
+  const router = useRouter();
   return (
     <>
       <div className='flex flex-col lg:flex-row gap-5 border-[3px] rounded-2xl hover:border-[#5060FF] p-3 bg-white'>
@@ -68,7 +70,12 @@ const ListingCard = ({ detail }) => {
             {/* ------------------ */}
             <div className='flex flex-col md:flex-row justify-between gap-5 w-full lg:flex-col items-center h-full pb-5'>
               <div className='flex justify-center w-full items-center h-full lg:border-b py-0 lg:py-5 border lg:border-0'>
-                <button className='text-[#5060FF] whitespace-nowrap uppercase font-normal flex items-center gap-3 px-10 py-1.5 lg:px-0 lg:py-0'>
+                <button
+                  onClick={() => {
+                    router.push(`/biz/${detail?.company_title}`);
+                  }}
+                  className='text-[#5060FF] whitespace-nowrap uppercase font-normal flex items-center gap-3 px-10 py-1.5 lg:px-0 lg:py-0'
+                >
                   View profile
                   <BiShowAlt />
                 </button>

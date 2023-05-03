@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import Button from "../components/Button";
 import { BiSearchAlt2 } from "react-icons/bi";
 import { MdArrowDropDown } from "react-icons/md";
 import { useRouter } from "next/router";
@@ -13,7 +12,7 @@ const SearchMenu = () => {
   let autoCompleteData = [];
   const router = useRouter();
   const [dropdownArray, setDropdownArray] = useState([]);
-  const [dropDownValue, setDropDownValue] = useState();
+  // const [dropDownValue, setDropDownValue] = useState();
   // console.log(dropdownArray);
 
   useEffect(() => {
@@ -30,14 +29,14 @@ const SearchMenu = () => {
     getAllData();
   }, []);
 
-  useEffect(() => {
-    if (dropDownValue) {
-      // router.push(`http://localhost:3000?cities=${dropDownValue}`);
-      router.push(
-        `http://localhost:3000/?cities=${input}&city=${dropDownValue}&page=1`
-      );
-    }
-  }, [dropDownValue]);
+  // useEffect(() => {
+  //   if (dropDownValue) {
+  //     // router.push(`http://localhost:3000?cities=${dropDownValue}`);
+  //     router.push(
+  //       `http://localhost:3000/?cities=${input}&city=${dropDownValue}&page=1`
+  //     );
+  //   }
+  // }, [dropDownValue]);
 
   for (let index = 0; index < data.length; index++) {
     uniqueSet.add(data[index].locality);
@@ -82,7 +81,8 @@ const SearchMenu = () => {
         </div>
         <button
           onClick={() => {
-            router.push(`http://localhost:3000?cities=${input}`), dropdown();
+            router.push(`http://localhost:3000/seo/${input}?page=1`),
+              dropdown();
           }}
           className='bg-[#5060FF] rounded-r-full flex w-12 shadow-sm justify-center items-center'
         >
@@ -108,7 +108,7 @@ const SearchMenu = () => {
           : ""}
       </button>
       {/* **************** dropdown ( scroll) *************************** */}
-      <div>
+      {/* <div>
         <div>
           {dropdownArray.length ? (
             <div className='flex gap-10'>
@@ -140,16 +140,7 @@ const SearchMenu = () => {
             ""
           )}
         </div>
-      </div>
-      {/* -------------- */}
-      {/* 
-      <div className=' flex justify-center lg:justify-start flex-wrap flex-grow gap-5 pb-5'>
-        <Button name='UX Designer' />
-        <Button name='UI Designer' />
-        <Button name='Product Designer' />
-        <button className='text-[#5060FF]'>Clear filters</button>
       </div> */}
-      {/* </div> */}
       <div className='flex justify-between py-5'>
         <div>
           <span>Jobs For You</span>

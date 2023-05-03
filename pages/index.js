@@ -1,94 +1,103 @@
-import React, { useEffect, useState } from "react";
-import ListingCard from "../components/ListingCard";
-import SearchMenu from "../components/Search";
-import Pagination from "../components/Pagination";
-import { useRouter } from "next/router";
-import { BiChevronLeft, BiChevronRight } from "react-icons/bi";
+// import React, { useEffect, useState } from "react";
+// import ListingCard from "../components/ListingCard";
+// import SearchMenu from "../components/Search";
+// import Pagination from "../components/Pagination";
+// import { useRouter } from "next/router";
+// import { BiChevronLeft, BiChevronRight } from "react-icons/bi";
 
 const index = () => {
-  const [data, setData] = useState();
-  const router = useRouter();
-  const { cities, city, page } = router.query;
-  const [searchData, setSearchData] = useState([]);
+  // const [data, setData] = useState();
+  // const router = useRouter();
+  // const [searchData, setSearchData] = useState([]);
 
-  useEffect(() => {
-    // In pagination data fetching
-    function ListingCardDetail() {
-      fetch(`http://localhost:3000/api/staticdata?page=${page ? page : 1}`)
-        .then((res) => {
-          return res.json();
-        })
-        .then((data) => setData(data?.data));
-    }
-    ListingCardDetail();
-  }, [page]);
+  // In pagination data fetching
+  // useEffect(() => {
+  //   function ListingCardDetail() {
+  //     fetch(
+  //       `http://localhost:3000/api/staticdata?page=${
+  //         router.query.page ? router.query.page : 1
+  //       }`
+  //     )
+  //       .then((res) => {
+  //         return res.json();
+  //       })
+  //       .then((data) => {
+  //         setData(data?.data);
+  //         console.log(data);
+  //       });
+  //   }
+  //   ListingCardDetail();
+  // }, [router.query.page]);
 
-  useEffect(() => {
-    // In search data fetching
-    const search = function () {
-      if (cities) {
-        fetch(
-          `http://localhost:3000/api/cities?states=${cities}&page=1
-          `
-        )
-          .then((res) => {
-            return res.json();
-          })
-          .then((data) => setSearchData(data?.data));
-      }
-      if (cities && city) {
-        fetch(
-          `http://localhost:3000/api/cities?states=${cities}&city=${city}&page=${
-            page ? page : 1
-          }`
-        )
-          .then((res) => {
-            return res.json();
-          })
-          .then((data) => {
-            setSearchData(data?.data);
-          });
-      }
-    };
-    search();
-  }, [cities, city]);
+  // In search data fetching
+  // useEffect(() => {
+  //   const search = function () {
+  //     if (router.query.cities) {
+  //       fetch(
+  //         `http://localhost:3000/api/cities?states=${
+  //           router.query.cities
+  //         }&page=${router.query.page ? router.query.page : 1}
+  //         `
+  //       )
+  //         .then((res) => {
+  //           return res.json();
+  //         })
+  //         .then((data) => {
+  //           setSearchData(data);
+  //           // console.log(data);
+  //         });
+  //     }
+  //     if (router.query.cities && router.query.city) {
+  //       fetch(
+  //         `http://localhost:3000/api/cities?states=${
+  //           router.query.cities
+  //         }&city=${router.query.city}&page=${
+  //           router.query.page ? router.query.page : 1
+  //         }`
+  //       )
+  //         .then((res) => {
+  //           return res.json();
+  //         })
+  //         .then((data) => {
+  //           setSearchData(data);
+  //         });
+  //     }
+  //   };
+  //   search();
+  // }, [router.query.cities, router.query.city]);
 
-  function nextPage() {
-    fetch(
-      `http://localhost:3000/api/cities?state=${cities}&page=${
-        page ? page * 1 + 1 : 2
-      }`
-    )
-      .then((res) => {
-        return res.json();
-      })
-      .then((data) => {
-        setSearchData(data?.data);
-      });
-  }
+  // useEffect(() => {
+  //   function name() {
+  //     !router.query.page
+  //       ? (router.query.page = 1)
+  //       : (router.query.page = router.query.page);
+  //   }
+  //   name();
+  // }, []);
 
-  function prevPage() {
-    fetch(
-      `http://localhost:3000/api/cities?state=${cities}&page=${page * 1 - 1}`
-    )
-      .then((res) => {
-        return res.json();
-      })
-      .then((data) => {
-        setSearchData([]), setSearchData(data?.data);
-      });
-  }
+  // function nextPage() {
+  //   router.push(
+  //     `/?cities=${router.query.cities}&page=${router.query.page * 1 + 1}`
+  //   );
+  // }
+
+  // function prevPage() {
+  //   router.push(
+  //     `/?cities=${router.query.cities}&page=${router.query.page * 1 - 1}`
+  //   );
+  // }
 
   return (
     <>
-      <div className='px-5 md:px-10 lg:px-20 space-y-7'>
+      <div>Home</div>
+      {/* <div className='px-5 md:px-10 lg:px-20 space-y-7'>
         <SearchMenu />
-      </div>
-      <div>
-        {searchData?.length > 0 ? (
+      </div> */}
+      {/* <div>
+        {searchData?.data?.length > 0 ? (
           <>
             <div className='px-5 md:px-10 lg:px-20 space-y-7 mb-11'>
-              {searchData?.map((element) => {
+              {searchData?.data?.map((element) => {
                 return (
                   <>
                     <ListingCard detail={element} />
@@ -123,57 +132,110 @@ const index = () => {
                   <BiChevronLeft />
                   Prev
                 </button>
-                <button
-                  onClick={() => {
-                    fetch(
-                      `http://localhost:3000/api/cities?state=${cities}&page=1`
-                    )
-                      .then((res) => {
-                        return res.json();
-                      })
-                      .then((data) => {
-                        setSearchData([]), setSearchData(data?.data);
-                      });
-                  }}
-                  className='border-2 p-1 px-3 rounded-lg'
-                >
-                  1
-                </button>
-                <button
-                  onClick={() => {
-                    fetch(
-                      `http://localhost:3000/api/cities?state=${cities}&page=2`
-                    )
-                      .then((res) => {
-                        return res.json();
-                      })
-                      .then((data) => {
-                        setSearchData([]), setSearchData(data?.data);
-                      });
-                  }}
-                  className='border-2 p-1 px-3 rounded-lg'
-                >
-                  2
-                </button>
-                <button
-                  onClick={() => {
-                    fetch(
-                      `http://localhost:3000/api/cities?state=${cities}&page=3`
-                    )
-                      .then((res) => {
-                        return res.json();
-                      })
-                      .then((data) => {
-                        setSearchData([]), setSearchData(data?.data);
-                      });
-                  }}
-                  className='border-2 p-1 px-3 rounded-lg'
-                >
-                  3
-                </button>
+
+                <div className='flex gap-2'>
+                  {router.query.page != 1 && (
+                    <button
+                      className='border-2 p-1 px-3 rounded-lg'
+                      onClick={() =>
+                        router.push(`/?cities=${router.query.cities}&page=1`)
+                      }
+                    >
+                      1
+                    </button>
+                  )}
+                  {router.query.page > 2 && (
+                    <button
+                      className='border-2 p-1 px-3 rounded-lg'
+                      disabled={router.query.page - 1 > 2}
+                      onClick={() =>
+                        router.push(
+                          `/?cities=${router.query.cities}&page=${
+                            router.query.page - 1
+                          }`
+                        )
+                      }
+                    >
+                      {router.query.page - 1 > 2
+                        ? "..."
+                        : router.query.page - 1}
+                    </button>
+                  )}
+                  {router.query.page > 3 && (
+                    <button
+                      className='border-2 p-1 px-3 rounded-lg'
+                      onClick={() =>
+                        router.push(
+                          `/?cities=${router.query.cities}&page=${
+                            router.query.page - 1
+                          }`
+                        )
+                      }
+                    >
+                      {router.query.page - 1}
+                    </button>
+                  )}
+                  {
+                    <button className='border-2 p-1 px-3 rounded-lg bg-green-400'>
+                      {router.query.page}
+                    </button>
+                  }
+                  {router.query.page < searchData?.totalPages - 1 && (
+                    <button
+                      className='border-2 p-1 px-3 rounded-lg'
+                      onClick={() =>
+                        router.push(
+                          `/?cities=${router.query.cities}&page=${
+                            router.query.page * 1 + 1
+                          }`
+                        )
+                      }
+                    >
+                      {router.query.page * 1 + 1}
+                    </button>
+                  )}
+                  {router.query.page < searchData?.totalPages - 2 && (
+                    <button
+                      className='border-2 p-1 px-3 rounded-lg'
+                      disabled={
+                        router.query.page - 1 < searchData?.totalPages - 2
+                      }
+                      onClick={() =>
+                        router.push(
+                          `/?cities=${router.query.cities}&page=${
+                            router.query.page - 1
+                          }`
+                        )
+                      }
+                    >
+                      {router.query.page - 1 < searchData?.totalPages - 2
+                        ? "..."
+                        : router.query.page - 1}
+                    </button>
+                  )}
+                  {router.query.page != searchData?.totalPages && (
+                    <button
+                      className='border-2 p-1 px-3 rounded-lg'
+                      onClick={() =>
+                        router.push(
+                          `/?cities=${router.query.cities}&page=${searchData?.totalPages}`
+                        )
+                      }
+                    >
+                      {searchData?.totalPages}
+                    </button>
+                  )}
+                </div>
                 <button
                   onClick={nextPage}
-                  className='flex items-center border-2 rounded-lg border-blue-100 cursor-pointer px-2 p-2 bg-green-500 text-white gap-0 hover:border-black'
+                  disabled={
+                    router.query.page == searchData?.totalPages ? true : false
+                  }
+                  className={
+                    router.query.page == searchData?.totalPages
+                      ? "flex items-center cursor-not-allowed"
+                      : "flex items-center border-2 rounded-lg border-blue-100 cursor-pointer px-2 p-2 bg-gray-200 gap-0 hover:border-black"
+                  }
                 >
                   Next
                   <BiChevronRight />
@@ -197,7 +259,7 @@ const index = () => {
             </div>
           </>
         )}
-      </div>
+      </div> */}
     </>
   );
 };

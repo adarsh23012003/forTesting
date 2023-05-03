@@ -4,14 +4,17 @@ import { BiChevronLeft, BiChevronRight } from "react-icons/bi";
 
 const Pagination = () => {
   const router = useRouter();
-  const { page } = router.query;
 
   function nextPage() {
-    router.push(`http://localhost:3000?page=${page ? page * 1 + 1 : 2}`);
+    router.push(
+      `http://localhost:3000?page=${
+        router.query.page ? router.query.page * 1 + 1 : 2
+      }`
+    );
   }
 
   function prevPage() {
-    router.push(`http://localhost:3000?page=${page * 1 - 1}`);
+    router.push(`http://localhost:3000?page=${router.query.page * 1 - 1}`);
   }
   useEffect(() => {
     function name() {
