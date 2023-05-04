@@ -7,9 +7,8 @@ import { BiChevronLeft, BiChevronRight } from "react-icons/bi";
 function state() {
   const router = useRouter();
   const [byStateData, setByStateData] = useState([]);
-  console.log(router.query.state);
-  console.log(router.query.page);
 
+  console.log(router);
   // In search data fetching
   useEffect(() => {
     const byStateSearch = function () {
@@ -44,7 +43,7 @@ function state() {
       //   }
     };
     byStateSearch();
-  }, [router.query.state]);
+  }, [router.query.state, router.query.page]);
 
   useEffect(() => {
     function spaceRemovingFor() {
@@ -64,7 +63,31 @@ function state() {
   }
   return (
     <>
-      <SearchMenu />
+      {/* BreadCumb */}
+      <div className='flex gap-0'>
+        <button
+          onClick={() => {
+            router.push("/");
+          }}
+        >{`Home >`}</button>
+        <button
+          onClick={() => {
+            router.push(`/${router.route.trim().split("/")[1]}`);
+          }}
+        >
+          {router.route.trim().split("/")[1]}
+        </button>
+        <button
+          onClick={() => {
+            router.push(`/${router.query.state}`);
+          }}
+        >
+          {`>${router.query.state}`}
+        </button>
+      </div>
+      <div className='px-5 md:px-10 lg:px-20 space-y-7'>
+        <SearchMenu />
+      </div>
       <div>
         {byStateData?.data?.map((element) => {
           return (

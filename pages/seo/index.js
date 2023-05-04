@@ -7,6 +7,7 @@ import { BiChevronLeft, BiChevronRight } from "react-icons/bi";
 function index() {
   const [data, setData] = useState([]);
   const router = useRouter();
+
   useEffect(() => {
     function defaultData() {
       fetch(
@@ -45,6 +46,22 @@ function index() {
   }, []);
   return (
     <>
+      {/* BreadCumb */}
+      <div>{console.log(router)}</div>
+      <div className='flex gap-0'>
+        <button
+          onClick={() => {
+            router.push("/");
+          }}
+        >{`Home >`}</button>
+        {router.asPath.split("/").map((element) => {
+          return (
+            <>
+              <div>{element}</div>
+            </>
+          );
+        })}
+      </div>
       <div className='px-5 md:px-10 lg:px-20 space-y-7'>
         <SearchMenu />
       </div>
